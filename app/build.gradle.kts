@@ -1,10 +1,15 @@
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
 
 abstract class HelloTask : DefaultTask() {
+    @get:Input
+    abstract val userName: Property<String>
+
     @TaskAction
     fun hello() {
-        println("Hello Gradle!")
+        println("Hello ${userName.get()}!")
     }
 }
 
@@ -17,4 +22,6 @@ dependencies {
     implementation(project(":service"))
 }
 
-tasks.register<HelloTask>("hello")
+tasks.register<HelloTask>("hello") {
+    userName.set("Naoki")
+}
